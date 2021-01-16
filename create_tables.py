@@ -1,7 +1,7 @@
 import psycopg2
 
 
-def create():
+def create_tables():
     import psycopg2
     import json
 
@@ -21,7 +21,7 @@ def create():
 
                 cur = conn.cursor()
                 in_str = insert[i]
-                cur.execute(in_str, tuple())  # tutaj do tupla dodać info które mamy ładować
+                cur.execute(in_str)  # tutaj do tupla dodać info które mamy ładować
                 conn.commit()  # ważne bo sprawia że wykonuje się dana operacja przed zamknięciem cursora
                 cur.close()
             except (Exception, psycopg2.DatabaseError) as error:

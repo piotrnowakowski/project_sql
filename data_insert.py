@@ -8,7 +8,6 @@ with open('tables.json', 'r') as file:
     insert_table = json.load(file)
     insert = insert_table['inserts_list']
 
-
 house_income = pd.read_excel(r'Household Income.xls')
 
 

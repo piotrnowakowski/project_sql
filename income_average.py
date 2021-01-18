@@ -12,8 +12,8 @@ with open('tables.json', 'r') as file:
 
 
 def get_state_key_list(cursor):
-    cursor.execute("""SELECT state_key::float FROM income_state_median;""")
-    cursor.commit()  # ważne bo sprawia że wykonuje się dana operacja przed zamknięciem cursora
+    cursor.execute("""SELECT state_key FROM income_state;""")
+    #cursor.commit()  # ważne bo sprawia że wykonuje się dana operacja przed zamknięciem cursora
     list =cursor.fetchall()
     for i in list:
         if i not in state_key_list:
@@ -21,33 +21,33 @@ def get_state_key_list(cursor):
 
 
 def calculate_average(cursor, years):
-    get_state_key_list()
+    get_state_key_list(cursor)
     year_income = []
     for s in state_key_list:
         for i in years:
-            cursor.execute("""SELECT income::float FROM income_state_median WHERE
-                  year = %s AND state = %s;""", (i, s))
-            cursor.commit()  # ważne bo sprawia że wykonuje się dana operacja przed zamknięciem cursora
+            cursor.execute("""SELECT income FROM income_state WHERE
+                  year=%s AND state_key=%s;""", (str(i), str(s[0])))
+            #cursor.commit()  # ważne bo sprawia że wykonuje się dana operacja przed zamknięciem cursora
             output = cursor.fetchall()
-            year_income.append(output)
+            year_income.append(output[0][0])
         all = 0
         for record in year_income:
             all = all + record
         average = all/len(year_income)
-        cursor.execute(insert_order, (s, i, average))
-        cursor.commit()
+        query = "INSERT INTO income_state_all_average (state_key, income) VALUES (%s, %s);"
+        cursor.execute(query, [str(s[0]), int(average)])
+        conn.commit()
         year_income = []  # zeruje tablice żeby  policzyć kolejny record
-# INSERT INTO income_state_all_average (id, state_key, year, income) VALUES (%s, %s, %s, %s, %s)"
 
 
 yearslist =[]
-for i in range(1984, 2015):
-    regex = str(i) + "-" + str(i+1) + r".*"
-    yearslist.append(regex)
+for i in range(1985, 2015):
+    #regex = str(i) + "-" + str(i+1) + r".*"
+    yearslist.append(i)
 try:
     conn = psycopg2.connect(
         host="localhost",
-        database="climate",
+        database="crime_test",
         user="postgres",
         password="1")
     cur = conn.cursor()

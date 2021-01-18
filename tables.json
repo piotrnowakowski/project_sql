@@ -1,16 +1,16 @@
 {
   "create_tables": {
-    "crime_table_total": "CREATE TABLE total (id BIGSERIAL NOT NULL PRIMARY KEY, year INTEGER, state_key char(2), state CHAR(25), population INTEGER, violent_crime INTEGER, homicide INTEGER, rape_l INTEGER, rape_r INTEGER, robbery INTEGER, assault INTEGER, property INTEGER, burglary INTEGER, larceny INTEGER, vehicle INTEGER);",
-    "crime_state_average": "CREATE TABLE states_average (id BIGSERIAL NOT NULL PRIMARY KEY, year INTEGER, state_key char(2), state CHAR(25), population INTEGER, violent_crime INTEGER, homicide INTEGER, rape_l INTEGER, rape_r INTEGER, robbery INTEGER, assault INTEGER, property INTEGER, burglary INTEGER, larceny INTEGER, vehicle INTEGER);",
+    "crime_table_total": "CREATE TABLE crime_table_total (id BIGSERIAL NOT NULL PRIMARY KEY, year INTEGER, state_key char(2), state CHAR(25), population INTEGER, violent_crime INTEGER, homicide INTEGER, rape_l INTEGER, rape_r INTEGER, robbery INTEGER, assault INTEGER, property INTEGER, burglary INTEGER, larceny INTEGER, vehicle INTEGER);",
+    "crime_state_average": "CREATE TABLE crime_states_average (id BIGSERIAL NOT NULL PRIMARY KEY, year INTEGER, state_key char(2), state CHAR(25), population INTEGER, violent_crime INTEGER, homicide INTEGER, rape_l INTEGER, rape_r INTEGER, robbery INTEGER, assault INTEGER, property INTEGER, burglary INTEGER, larceny INTEGER, vehicle INTEGER);",
     "crime_average":"CREATE TABLE crime_average (id BIGSERIAL NOT NULL PRIMARY KEY,  year INTEGER, crime char(40), average_year INTEGER, average_all INTEGER);",
-    "income_state_median": "CREATE TABLE income_state_median (id BIGSERIAL NOT NULL PRIMARY KEY, state CHAR(25), state_key char(2), year INTEGER, income INTEGER)",
-    "income_state_all_average": "CREATE TABLE income_state_all_average (id BIGSERIAL NOT NULL PRIMARY KEY, state_key char(2), year INTEGER, income INTEGER)"
+    "income_state": "CREATE TABLE income_state ( state CHAR(25), state_key char(2), year INTEGER, income INTEGER);",
+    "income_state_all_average": "CREATE TABLE income_state_all_average ( state_key char(2), income INTEGER);"
   },
   "inserts_list": {
     "crime_table_total": "INSERT INTO crime_table_total (id, year, state_key, state, population, violent_crime, homicide, rape_l, rape_r, robbery, assault, property, burglary, larceny, vehicle) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s , %s, %s);",
     "crime_state_average": "INSERT INTO crime_state_average (id, year, state_key, state, population, violent_crime, homicide, rape_l, rape_r, robbery, assault, property, burglary, larceny, vehicle) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s , %s, %s);",
     "crime_average": "INSERT INTO crime_average (id, year, crime, average_year, average_all) VALUES (%s, %s, %s, %s, %s);",
-    "income_state_median": "INSERT INTO income_state_median (id, state, state_key, year, income) VALUES (%s, %s, %s, %s, %s, %s);",
-    "income_state_all_average": "INSERT INTO income_state_all_average (id, state_key, year, income) VALUES (%s, %s, %s, %s, %s, %s);"
+    "income_state": "INSERT INTO income_state (state, state_key, year, income) VALUES (%s, %s, %s, %s);",
+    "income_state_all_average": "INSERT INTO income_state_all_average (state_key, income) VALUES (%s, %s);"
   }
 }

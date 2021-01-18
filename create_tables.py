@@ -5,7 +5,7 @@ def create_tables():
     import psycopg2
     import json
 
-    tables_key_list = ["crime_table_total", "crime_state_average", "crime_average", "income_state_median",
+    tables_key_list = ["crime_table_total", "crime_state_average", "crime_average", "income_state",
                        "income_state_all_average"]
     with open('tables.json', 'r') as file:
         insert_table = json.load(file)
@@ -15,7 +15,7 @@ def create_tables():
             try:
                 conn = psycopg2.connect(
                     host="localhost",
-                    database="climate",
+                    database="crime_test",
                     user="postgres",
                     password="1")
 
@@ -29,3 +29,4 @@ def create_tables():
             finally:
                 if conn is not None:
                     conn.close()
+create_tables()

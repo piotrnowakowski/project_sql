@@ -1,6 +1,5 @@
 import psycopg2
 import json
-
 global state_key_list
 state_key_list = []
 global insert_order
@@ -49,7 +48,7 @@ try:
         host="localhost",
         database="crime_test",
         user="postgres",
-        password="1")
+        password="haslo")
     cur = conn.cursor()
     calculate_average(cur, yearslist)
     cur.close()

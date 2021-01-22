@@ -1,21 +1,33 @@
 import pandas as pd
+import psycopg2
+import csv
+import json
+import codecs
 #with pd.read_excel(r'Household Income.xls') as house_income:
 house_income = pd.read_excel(r'Household Income.xls')
 list_columns = ['State', 'State code']
-for i in range(1984, 2015):
-    regex = str(i) + "-" + str(i+1) + r".*"
-    list_columns.append(regex)
+with open('tables.json') as file:
+    tabela = json.load(file)
+    insert_command = tabela['inserts_list']['crime_table_total']
 
-liczba = pd.DataFrame(house_income, index=['Alaska', 'Alabama', 'Arizona', 'Arkansas'])
-liczba = liczba.loc['Alaska']
-for r in range(1, 52):
-    row = house_income.loc[r, :]
-    print(row)
-    indices = [0, 1, 2]
-    for i in range(2, 62, 2):
-        indices.append(i)
-    #print(indices)
-    data_toload = [row.iloc[index] for index in indices]
-    print(data_toload)
-    #data_insert(data_toload)
+with open('estimated_crimes_1979_2019.csv', "rt") as csv_file:
+    #tabela = csv.reader(codecs.iterdecode(csv_file, 'utf-8'), delimiter=',')
+    tabela = csv.reader(csv_file, delimiter=',')
+    #next(tabela)
+    for w in tabela:
+        try:
+            conn = psycopg2.connect(
+                    host="localhost",
+                    database="crime_test",
+                    user="postgres",
+                    password="haslo")
 
+            cur = conn.cursor()
+            cur.execute(insert_command, w)  # tutaj do tupla dodać info które mamy ładować
+            conn.commit()  # ważne bo sprawia że wykonuje się dana operacja przed zamknięciem cursora
+            cur.close()
+        except (Exception, psycopg2.DatabaseError) as error:
+            print(error)
+        finally:
+            if conn is not None:
+                conn.close()

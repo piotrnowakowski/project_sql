@@ -17,7 +17,7 @@ def create_tables():
                     host="localhost",
                     database="crime_test",
                     user="postgres",
-                    password="1")
+                    password="haslo")
 
                 cur = conn.cursor()
                 in_str = insert[i]

@@ -37,7 +37,7 @@ def load_crime_rate(command):
                     host="localhost",
                     database="crime_test",
                     user="postgres",
-                    password="1")
+                    password="haslo")
                 cur = conn.cursor()
                 in_str = command
                 cur.execute(in_str, tuple(data))  # tutaj do tupla dodać info które mamy ładować

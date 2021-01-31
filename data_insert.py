@@ -23,32 +23,29 @@ def load_crime_rate(command):
             indices.append(j)
 
         data_toload.append([row.iloc[index] for index in indices])
-    for i in data_toload:
-        year_max = 2014
-        for r in range(0, 30):
-            data = []
-            data.append(i[0])
-            data.append(i[1])
-            data.append(year_max)
-            data.append(i[r+2])
-            year_max -= 1
-            try:
-                conn = psycopg2.connect(
-                    host="localhost",
-                    database="crime_test",
-                    user="postgres",
-                    password="haslo")
-                cur = conn.cursor()
-                in_str = command
+    try:
+        conn = psycopg2.connect(
+            host="localhost",
+            database="crime_test",
+            user="postgres",
+            password="1")
+        cur = conn.cursor()
+        in_str = command
+        for i in data_toload:
+            year_max = 2014
+            for r in range(0, 30):
+                data = []
+                data.append(i[0])
+                data.append(i[1])
+                data.append(year_max)
+                data.append(i[r+2])
+                year_max -= 1
                 cur.execute(in_str, tuple(data))  # tutaj do tupla dodać info które mamy ładować
                 conn.commit()  # ważne bo sprawia że wykonuje się dana operacja przed zamknięciem cursora
-                cur.close()
-            except (Exception, psycopg2.DatabaseError) as error:
-                print(error)
-            finally:
-                if conn is not None:
-                    conn.close()
+        cur.close()
+    except (Exception, psycopg2.DatabaseError) as error:
+        print(error)
 
 
 load_crime_rate(command)
-print ("it took {} seconds to execute script".format(time.time()-start))
+print("it took {} seconds to execute script".format(time.time()-start))

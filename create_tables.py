@@ -17,7 +17,7 @@ def create_tables():
                     host="localhost",
                     database="crime_test",
                     user="postgres",
-                    password="haslo")
+                    password="1")
 
                 cur = conn.cursor()
                 in_str = insert[i]
@@ -29,4 +29,6 @@ def create_tables():
             finally:
                 if conn is not None:
                     conn.close()
+
+                    
 create_tables()

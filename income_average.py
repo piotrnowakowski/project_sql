@@ -48,7 +48,7 @@ try:
         host="localhost",
         database="crime_test",
         user="postgres",
-        password="haslo")
+        password="1")
     cur = conn.cursor()
     calculate_average(cur, yearslist)
     cur.close()
